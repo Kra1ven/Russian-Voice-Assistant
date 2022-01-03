@@ -22,7 +22,7 @@ class functions(object):
 
 	def getWeather():
 		g = geocoder.ip('me')
-		owm = pyowm.OWM("85623e53736a17f4c27f7d48ba0a86e5")
+		owm = pyowm.OWM("")
 		mgr = owm.weather_manager()
 		observation = mgr.weather_at_place(f'{g.city}, {g.country}')
 		w = observation.weather
