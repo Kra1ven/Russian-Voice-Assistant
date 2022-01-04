@@ -4,11 +4,11 @@ from pygame import mixer, time, event
 from google.cloud import texttospeech
 from gtts import gTTS
 
-try:
+if not path.exists("key.json"):
+	google_api = False
+else:
 	os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="key.json"
 	google_api = True
-except:
-	google_api = False
 
 class audio():
 	
