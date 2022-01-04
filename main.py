@@ -14,22 +14,15 @@ spotted = False
 
 
 def getWords(intents):
-    main_keys = list(intents.keys())
-    
-    i = 0
-    words = []
+	main_keys = intents.keys()
+	sents = []
+	for i in main_keys:
+		if i != 'smalltalk_res':
+			lower_keys = intents[i].keys()
+			for j in lower_keys:
+				sents += intents[i][j]
 
-    print(main_keys)
-    for key_lwr in list(intents[main_keys[i]].keys()):
-        try:
-            for sent in intents[main_keys[i]][key_lwr]:
-                sent = f'"{sent}"'
-                if sent not in words:
-                    words.append(sent)
-        except KeyError:
-            i += 1
-
-    return words
+	return tuple(sents)
 
 def wakeword():
 
@@ -47,11 +40,11 @@ def wakeword():
 
 	intent_cls.initLoad()
 	words = getWords(config.intents)
-	string = ', '.join(words)
+	string = '", "'.join(words)
 	handle = GetForegroundWindow()
 
 	with sd.RawInputStream(samplerate=samplerate, blocksize=8000, device=None, dtype='int16', channels=1, callback=callback):
-		rec = vosk.KaldiRecognizer(model, samplerate, f'[{string}, "лиза", "плейсхолдер", "[unk]"]')
+		rec = vosk.KaldiRecognizer(model, samplerate, f'["{string}", "лиза", "[unk]"]')
 
 		while True:
 
